@@ -182,7 +182,7 @@ function NextWord(){
 }
 
 //Actions that occur when user types
-document.onkeyup = function (event) {
+document.ontouchend = function (event) {
 
     //Get key typed and put into lower case
 
