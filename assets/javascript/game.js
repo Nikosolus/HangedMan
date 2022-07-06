@@ -1,6 +1,6 @@
 //Hangman words - picture name.jpg should also be added to switch in the clearBoard function
-var arrWords = ["jon snow", 
-                "bran stark", 
+var arrWords = ["jon snow",
+                "bran stark",
                 "tyrion lannister",
                 "theon greyjoy",
                 "petyr baelish",
@@ -21,7 +21,7 @@ var objGame = {
                 "img":"",
                 "unguessed":"",
                 "wrongGuess":[],
-                "rightGuess":[],               
+                "rightGuess":[],
                 "wins":0,
                 "losses":0,
                 "status":0 //0=new match,1=match over,2=game over
@@ -37,12 +37,12 @@ var letters = "abcdefghijklmnopqrstuvwxyz"
     var imgCharacter = document.getElementById("imgCharacter");
     var txtHidden = document.getElementById("txtMobile");
     var gameOverMsg = document.getElementById("gameOverMsg");
-    
+
 
     var characterSRC = "assets/images/"
     wins.innerText = "WINS: " + objGame.wins;
     losses.innerText = "LOSSES: " + objGame.losses;
-    
+
     document.addEventListener("click", function(event) {
 
         if (!event.target.matches("#btnEscape")){
@@ -52,8 +52,8 @@ var letters = "abcdefghijklmnopqrstuvwxyz"
         NextWord();
 
     }, false);
-   
-    clearBoard();    
+
+    clearBoard();
 
 //Resets board for new match, if more words are available in the arrWords
 function clearBoard() {
@@ -64,15 +64,15 @@ function clearBoard() {
         imgHangman.src = "assets/images/hangman_0.png"
         objGame.wrongGuess = [];
         objGame.rightGuess = [];
-        guessed.innerText = "GUESSED: " 
+        guessed.innerText = "GUESSED: "
         objGame.word = arrWords[Math.floor(Math.random() * arrWords.length)];
         objGame.unguessed = findUniqueString(objGame.word);
-        objGame.unguessed = objGame.unguessed.replace(' ', '');             
+        objGame.unguessed = objGame.unguessed.replace(' ', '');
         //Remove current word from arrWords
         var iCurrentWordIdx = arrWords.indexOf(objGame.word);
         arrWords.splice(iCurrentWordIdx, 1);
         gameBoard.innerText = hideUnguessedLetters(objGame).toUpperCase()
-        
+
         //assigns picture based on current word selected for match
         imgCharacter.src = ""
         characterSRC = "assets/images/"
@@ -143,20 +143,20 @@ function findUniqueString(str){
 
         if(unique.indexOf(str.charAt(i)) == -1){
             unique += str[i];
-        }        
+        }
     }
     return unique
 }
 //Replaces unguessed letters with _ to be displayed to user
 function hideUnguessedLetters(objGame){
-    
+
     displayWord = objGame.word
     var sLetter = ""
-       
+
     for(var i=0;i < objGame.unguessed.length; i++){
-                
-        sLetter = objGame.unguessed.charAt(i) 
-                
+
+        sLetter = objGame.unguessed.charAt(i)
+
         for(var x=0;x<objGame.word.length;x++){
             if (objGame.word.charAt(x) == ' '){
                 //do nothing
@@ -185,14 +185,14 @@ function NextWord(){
 document.onkeyup = function (event) {
 
     //Get key typed and put into lower case
-    
-    userSelection = event.key;  
+
+    userSelection = event.key;
     userSelection = userSelection.toLowerCase();
-    
+
     if (txtHidden.value.length > 0){
         txtHidden.value = '';
     }
-  
+
     //If escape is pushed, reset the board
     if (userSelection === "escape" || userSelection === "esc"){
 
@@ -201,14 +201,14 @@ document.onkeyup = function (event) {
     //Continue if game has not been won or lost yet
     }else if (objGame.status == "0"){
 
-       
+
         //Check if letter is part of the word, and not yet guessed
         if (objGame.unguessed.indexOf(userSelection) > -1 ){
             objGame.rightGuess.push(userSelection);
             objGame.unguessed =  objGame.unguessed.replace(userSelection,'');
             gameBoard.innerText = hideUnguessedLetters(objGame).toUpperCase()
-         
-        //Letter is not part of the word    
+
+        //Letter is not part of the word
         } else if(letters.indexOf(userSelection) > -1) {
 
             //Proceed if letter has not been guessed before
@@ -227,7 +227,7 @@ document.onkeyup = function (event) {
                 }
 
             }
-            
+
         }
             //Displayed guessed letters in alphabetical order
             var arrGuessed = objGame.rightGuess.concat(objGame.wrongGuess);
@@ -238,7 +238,7 @@ document.onkeyup = function (event) {
             }
             arrGuessed = arrGuessed.sort();
             guessed.innerText = "GUESSED: " + arrGuessed.join(" ")
-           
+
         //If match is won, update wins
         if(objGame.unguessed.length==0){
             playTheme()
@@ -250,9 +250,9 @@ document.onkeyup = function (event) {
         if (objGame.status > 0){
             gameOverMsg.innerHTML = "Press Escape to continue, if you dare!";
             imgCharacter.src = characterSRC
-        } 
-       
+        }
+
     }
-    
-    
+
+
 }
