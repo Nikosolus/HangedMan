@@ -1,1 +1,1 @@
-# HangedMan
+https://nikosolus.github.io/HangedMan/
